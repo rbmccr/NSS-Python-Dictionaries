@@ -90,24 +90,40 @@ print(purchase_summary)
 # for each list of blocks, loop the list and accumulate purchase_price. Append the result to the total_investment once each block has been added to the accumulated total
 for stock in purchase_summary:
   purchase_price = 0
-  list_length = 0 # used to determine when the total_investment list should receive the purchase_price (i.e. when total for the stock is calculated)
+  list_length = 0 # used to determine when the total is calculated completely
+  idx = 0
+  print('-------- ' + stock + ' --------')
   for block in purchase_summary[stock]:
+    print(block)
     list_length += 1
     purchase_price += block[0] * block[2]
     if len(purchase_summary[stock]) == list_length:
-      total_investment.append((stock, "$" + str(purchase_price)))
-
-print(total_investment)
+      idx += 1
+      print("Total stock investment: " + "$" + str(purchase_price))
 
 # PRINT RESULT:
-# [('GM', '$4800'), ('CAT', '$2505'), ('C', '$52800'), ('EK', '$5440'), ('TGT', '$11200'), ('AAPL', '$24000'), ('WMT', '$3432'), ('INTC', '$15400')]
-
-# -----------------------------------------------------------------
-
-# Some useful dictionary methods listed below:
-# dict.keys()
-# dict.values()
-# dict.items()
-# dict.get("key") <-- same as dict["key"]
-# del dict["key"]
-# dict.pop("key")
+# -------- C --------
+# (1100, '10-sep-2008', 48)
+# Total stock investment: $52800
+# -------- EK --------
+# (680, '1-apr-2004', 8)
+# Total stock investment: $5440
+# -------- TGT --------
+# (200, '1-jul-2003', 56)
+# Total stock investment: $11200
+# -------- AAPL --------
+# (50, '10-sep-2002', 480)
+# Total stock investment: $24000
+# -------- CAT --------
+# (50, '1-apr-2009', 24)
+# (45, '1-jul-2009', 29)
+# Total stock investment: $2505
+# -------- INTC --------
+# (200, '1-jul-1998', 77)
+# Total stock investment: $15400
+# -------- GM --------
+# (100, '10-sep-2010', 48)
+# Total stock investment: $4800
+# -------- WMT --------
+# (88, '1-apr-1997', 39)
+# Total stock investment: $3432
