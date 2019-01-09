@@ -91,14 +91,12 @@ print(purchase_summary)
 for stock in purchase_summary:
   purchase_price = 0
   list_length = 0 # used to determine when the total is calculated completely
-  idx = 0
   print('-------- ' + stock + ' --------')
   for block in purchase_summary[stock]:
     print(block)
     list_length += 1
     purchase_price += block[0] * block[2]
     if len(purchase_summary[stock]) == list_length:
-      idx += 1
       print("Total stock investment: " + "$" + str(purchase_price))
 
 # PRINT RESULT:
