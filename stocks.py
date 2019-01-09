@@ -1,0 +1,113 @@
+# block of publicly-traded stocks
+stockDict = {
+  'GM': 'General Motors',
+  'CAT':'Caterpillar',
+  'EK':'Eastman Kodak',
+  'C':'Citigroup',
+  'AAPL':'Apple Inc',
+  'MSFT':'Microsoft',
+  'INTC':'Intel',
+  'LUV':'Southwest Airlines',
+  'WMT':'Walmart',
+  'TGT':'Target'
+}
+
+# simple list of blocks of stock (list of tuples)
+# includes ticker symbol, num shares, date, price
+purchases = [
+ ( 'GM', 100, '10-sep-2010', 48 ),
+ ( 'CAT', 50, '1-apr-2009', 24 ),
+ ( 'CAT', 45, '1-jul-2009', 29 ),
+ ( 'C', 1100, '10-sep-2008', 48 ),
+ ( 'EK', 680, '1-apr-2004', 8 ),
+ ( 'TGT', 200, '1-jul-2003', 56 ),
+ ( 'AAPL', 50, '10-sep-2002', 480 ),
+ ( 'WMT', 88, '1-apr-1997', 39 ),
+ ( 'INTC', 200, '1-jul-1998', 77 )]
+
+ # -----------------------------------------------------------------
+
+ # Create a purchase history report that computes the full purchase price (shares times dollars) for each block of stock and uses the stockDict to look up the full company name.
+
+purchase_history_report = []
+
+for item in purchases:
+  purchase_price = item[1] * item[3]
+  stock_name = stockDict[item[0]]
+  purchase_history_report.append((stock_name, "$" + str(purchase_price), item[2]))
+
+print(purchase_history_report)
+
+# PRINT RESULT:
+# [('General Motors', '$4800', '10-sep-2010'),
+#  ('Caterpillar', '$1200', '1-apr-2009'),
+#  ('Caterpillar', '$1305', '1-jul-2009'),
+#  ('Citigroup', '$52800', '10-sep-2008'),
+#  ('Eastman Kodak', '$5440', '1-apr-2004'),
+#  ('Target', '$11200', '1-jul-2003'),
+#  ('Apple Inc', '$24000', '10-sep-2002'),
+#  ('Walmart', '$3432', '1-apr-1997'),
+#  ('Intel', '$15400', '1-jul-1998')]
+
+# -----------------------------------------------------------------
+
+ # Create a second purchase summary that accumulates total investment by ticker symbol.
+
+ # Multiple blocks of the same stock can easily be combined by creating a dict where the key is the ticker and the value is the LIST OF BLOCKS purchased.
+
+ # The program makes one pass through the data to create the dict.
+
+ # A pass through the dict can then create a report showing each ticker symbol and all blocks of stock.
+
+purchase_summary = {}
+total_investment = []
+
+for item in purchases:
+  stock_ticker = item[0]
+  if stock_ticker in purchase_summary:
+    purchase_summary[item[0]].append((item[1], item[2], item[3]))
+  else:
+    purchase_summary[item[0]] = []
+    purchase_summary[item[0]].append((item[1], item[2], item[3]))
+
+print(purchase_summary)
+
+# PRINT RESULT (Dictionary -- See CAT: it's the only stock with more than one stock purchase listed):
+# {'GM': [(100, '10-sep-2010', 48)],
+# 'CAT': [(50, '1-apr-2009', 24), (45, '1-jul-2009', 29)],
+# 'C': [(1100, '10-sep-2008', 48)],
+# 'EK': [(680, '1-apr-2004', 8)],
+# 'TGT': [(200, '1-jul-2003', 56)],
+# 'AAPL': [(50, '10-sep-2002', 480)],
+# 'WMT': [(88, '1-apr-1997', 39)],
+# 'INTC': [(200, '1-jul-1998', 77)]}
+
+# note on nested loop below - I interpreted the assignment to mean that a
+# nested loop was necessary. It'd be better to break down the data in
+# the previous loop and create the 'key: value' pairs differently to
+# already account for total investment
+
+# for each list of blocks, loop the list and accumulate purchase_price. Append the result to the total_investment once each block has been added to the accumulated total
+for stock in purchase_summary:
+  purchase_price = 0
+  list_length = 0 # used to determine when the total_investment list should receive the purchase_price (i.e. when total for the stock is calculated)
+  for block in purchase_summary[stock]:
+    list_length += 1
+    purchase_price += block[0] * block[2]
+    if len(purchase_summary[stock]) == list_length:
+      total_investment.append((stock, "$" + str(purchase_price)))
+
+print(total_investment)
+
+# PRINT RESULT:
+# [('GM', '$4800'), ('CAT', '$2505'), ('C', '$52800'), ('EK', '$5440'), ('TGT', '$11200'), ('AAPL', '$24000'), ('WMT', '$3432'), ('INTC', '$15400')]
+
+# -----------------------------------------------------------------
+
+# Some useful dictionary methods listed below:
+# dict.keys()
+# dict.values()
+# dict.items()
+# dict.get("key") <-- same as dict["key"]
+# del dict["key"]
+# dict.pop("key")
