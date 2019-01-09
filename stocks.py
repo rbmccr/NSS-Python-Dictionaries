@@ -60,7 +60,6 @@ print(purchase_history_report)
  # A pass through the dict can then create a report showing each ticker symbol and all blocks of stock.
 
 purchase_summary = {}
-total_investment = []
 
 for item in purchases:
   stock_ticker = item[0]
@@ -82,46 +81,49 @@ print(purchase_summary)
 # 'WMT': [(88, '1-apr-1997', 39)],
 # 'INTC': [(200, '1-jul-1998', 77)]}
 
-# note on nested loop below - I interpreted the assignment to mean that a
-# nested loop was necessary. It'd be better to break down the data in
-# the previous loop and create the 'key: value' pairs differently to
-# already account for total investment
-
-# for each list of blocks, loop the list and accumulate purchase_price. Append the result to the total_investment once each block has been added to the accumulated total
-for stock in purchase_summary:
+# for each list of blocks, loop the list and accumulate purchase_price. Print the total investment once each block has been added to the total
+for stock, purchases in purchase_summary.items():
   purchase_price = 0
   list_length = 0 # used to determine when the total is calculated completely
   print('-------- ' + stock + ' --------')
-  for block in purchase_summary[stock]:
+  for block in purchases:
     print(block)
     list_length += 1
     purchase_price += block[0] * block[2]
     if len(purchase_summary[stock]) == list_length:
-      print("Total stock investment: " + "$" + str(purchase_price))
+      print("Total stock investment: " + "$" + str(purchase_price) + '\n')
 
 # PRINT RESULT:
+
 # -------- C --------
 # (1100, '10-sep-2008', 48)
-# Total stock investment: $52800
+# Total stock investment: $
+
 # -------- EK --------
 # (680, '1-apr-2004', 8)
 # Total stock investment: $5440
+
 # -------- TGT --------
 # (200, '1-jul-2003', 56)
 # Total stock investment: $11200
+
 # -------- AAPL --------
 # (50, '10-sep-2002', 480)
 # Total stock investment: $24000
+
 # -------- CAT --------
 # (50, '1-apr-2009', 24)
 # (45, '1-jul-2009', 29)
 # Total stock investment: $2505
+
 # -------- INTC --------
 # (200, '1-jul-1998', 77)
 # Total stock investment: $15400
+
 # -------- GM --------
 # (100, '10-sep-2010', 48)
 # Total stock investment: $4800
+
 # -------- WMT --------
 # (88, '1-apr-1997', 39)
 # Total stock investment: $3432
